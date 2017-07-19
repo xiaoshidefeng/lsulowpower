@@ -33,12 +33,12 @@ public class UserServiceImpl implements UserService {
             System.out.println(bindingResult.getFieldError().getDefaultMessage());
             return ResultUtil.error(0, bindingResult.getFieldError().getDefaultMessage());
         } else if(user.getUserEmail() == null || user.getPassword() == null) {
-            return ResultUtil.error(10, "非法输入");
+            return ResultUtil.error(8, "非法输入");
         }
 //        System.out.println("1111111111111111111" + user.getUserEmail());
         //正则表达式验证邮箱
         if(!user.getUserEmail().matches("^\\w+@(\\w+\\.)+\\w+$")) {
-            return ResultUtil.error(12, "邮箱不合法");
+            return ResultUtil.error(10, "邮箱不合法");
         }
         if(userRepository.findByUserEmail(user.getUserEmail()) != null) {
             return ResultUtil.error(2, "邮箱已被注册");
@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result loginUser(User user, BindingResult bindingResult) {
+
         return null;
     }
 
