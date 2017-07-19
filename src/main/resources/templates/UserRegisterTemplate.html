@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Title</title>
+</head>
+<body>
+<div id="qm_con_body">
+    <div id="mailContentContainer" class="qmbox qm_con_body_content qqmail_webmail_only">
+
+        <style>
+            .qmbox a {
+                color: #009A61;
+                text-decoration: none;
+            }
+            .qmbox h4 {
+                font-size: 15px;
+                font-weight: bold;
+            }
+        </style>
+
+        <center></center>
+        <div style="margin: 80px auto 0; width: 580px; background: #FFF; box-shadow: 0 0 10px #333; text-align:left;">
+            <div style="margin: 0 40px; color: #999; border-bottom: 1px dotted #DDD; padding: 40px 0 30px; font-size: 13px; text-align: center;">
+                <a href="https://segmentfault.com" target="_blank"></a><br></br>
+                低电查询
+            </div>
+            <div style="padding: 30px 40px 40px;">
+                您好，感谢您注册 低电查询
+                <br></br>
+                请在 24 小时内点击此链接以完成注册
+                <a style="color: #009A61; text-decoration: none;" href="#" th:href="${register_link}" target="_blank" th:text="${register_link}">
+                </a>
+                <br></br>
+                激活遇到问题？请联系我们 a1330661071@gmail.com
+            </div>
+
+            <div style="background: #EEE; border-top: 1px solid #DDD; text-align: center; height: 90px; line-height: 90px;">
+                <a href="#" th:href="${register_link}" style="padding: 8px 18px; background: #009A61; color: #FFF; text-decoration: none; border-radius: 3px;" target="_blank">完成注册 ➔</a>
+            </div>
+        </div>
+
+
+
+        <br></br>
+        <div style="width:1px;height:0px;overflow:hidden"><img style="width:0;height:0" src="javascript:;"></img></div>
+
+        <style type="text/css">.qmbox style, .qmbox script, .qmbox head, .qmbox link, .qmbox meta {display: none !important;}</style>
+    </div>
+</div>
+</body>
+</html>
