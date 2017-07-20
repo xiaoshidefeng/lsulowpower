@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -39,7 +38,6 @@ public class MailUtil {
         //创建邮件正文
         Context context = new Context();
         context.setVariable("register_link", register_link);
-//        context.setVariable("code", code);
         String emailContent = templateEngine.process("UserRegisterTemplate", context);
 
         try {

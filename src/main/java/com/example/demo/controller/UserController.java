@@ -20,16 +20,33 @@ public class UserController {
     @Autowired
     private UserServiceImpl userServiceImpl;
 
+    /**
+     * 用户注册
+     * @param user
+     * @param bindingResult
+     * @return
+     */
     @PostMapping("/register")
     public Result userRegitser(@Valid User user, BindingResult bindingResult) {
 
         return userServiceImpl.registerUser(user, bindingResult);
     }
 
+    /**
+     * 邮箱验证
+     * @param email
+     * @param code
+     * @return
+     */
     @GetMapping("/email={email}/code={code}")
     public Result userCheckMail(@PathVariable("email") String email,
                                 @PathVariable("code") String code) {
 
         return userServiceImpl.userCheckMail(email, code);
+    }
+
+    @PostMapping("/login")
+    public Result userLogin(@Valid User user, BindingResult bindingResult) {
+        return userServiceImpl.loginUser(user, bindingResult);
     }
 }

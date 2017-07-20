@@ -7,10 +7,14 @@ import com.example.demo.utils.CodeUtil;
 import com.example.demo.utils.MailUtil;
 import com.example.demo.utils.Result;
 import com.example.demo.utils.ResultUtil;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import javax.servlet.ServletException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -60,10 +64,40 @@ public class UserServiceImpl implements UserService {
         return ResultUtil.error(4, "邮件发送失败");
     }
 
+    @Transactional
     @Override
     public Result loginUser(User user, BindingResult bindingResult) {
 
-        return null;
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getFieldError().getDefaultMessage());
+            return ResultUtil.error(0, bindingResult.getFieldError().getDefaultMessage());
+        }
+
+        String jwtToken = "";
+
+        if (user.getUserEmail() == null || user.getPassword() == null) {
+            return ResultUtil.error(16, "输入为空");
+        }
+
+        String email = user.getUserEmail();
+
+        User newuser = userRepository.findByUserEmail(email);
+
+        if (newuser == null) {
+            return ResultUtil.error(12, "用户不存在");
+        }
+
+        String password = CodeUtil.generateCode(user.getPassword());
+
+        if (!password.equals(newuser.getPassword())) {
+            return ResultUtil.error(14, "密码错误");
+        }
+
+        jwtToken = CodeUtil.generateToken(email);
+
+        newuser.setUserToken(jwtToken);
+        userRepository.save(newuser);
+        return ResultUtil.success(jwtToken);
     }
 
     @Override
