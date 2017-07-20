@@ -4,6 +4,7 @@ import com.example.demo.domain.Power;
 import com.example.demo.domain.User;
 import com.example.demo.domain.repository.PowerRepository;
 import com.example.demo.domain.repository.UserRepository;
+import com.example.demo.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -24,24 +25,29 @@ public class SchedulerTaskFindAndSend {
     @Autowired
     private PowerRepository powerRepository;
 
+    @Autowired
+    private MailUtil mailUtil;
+
     private String dorm;
 
-    @Scheduled(cron="*/60 * * * * ?")
+    private String email;
+
+    @Scheduled(cron="*/30 * * * * ?")
     private void process(){
         System.out.println("this is scheduler task runing  "+(count++));
 
         ArrayList<User> userArrayList = userRepository.findByDormNotNull();
-        List<Power> powerList = powerRepository.findAll();
 
         for(int i = 0; i < userArrayList.size(); i++ ) {
-            dorm = userArrayList.get(i).getDorm().toString();
-            for( int j = 0; j < powerList.size(); j++) {
-                if(dorm.equals(powerList.get(j).getDormNum())) {
-                    //TODO sendMail
-                }
+            dorm = userArrayList.get(i).getDorm();
+            Power power = powerRepository.findByDormNum(dorm);
+
+            if(power != null) {
+                String email = userArrayList.get(i).getUserEmail();
+                String powerValue = power.getPowerNum();
+                String dayTime = power.getDateNum();
+                mailUtil.sendLowPowerMail(email, dorm, powerValue, dayTime);
             }
         }
-
-
     }
 }

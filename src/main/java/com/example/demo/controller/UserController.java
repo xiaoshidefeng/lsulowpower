@@ -65,8 +65,7 @@ public class UserController {
      */
     @PostMapping("/bindingDorm")
     public Result bindingDorm(@RequestParam("dorm") String dorm,
-                              @RequestParam("token") String token,
-                              BindingResult bindingResult) {
-        return userServiceImpl.bindingDorm(dorm, token, bindingResult);
+                              @RequestParam("token") String token) {
+        return userServiceImpl.bindingDorm(dorm, token);
     }
 }

@@ -61,7 +61,28 @@ public class MailUtil {
         MimeMessage message = mailSender.createMimeMessage();
         dorm = dorm + "寝室";
 
-        return false;
+        //创建邮件正文
+        Context context = new Context();
+        context.setVariable("dormName", dorm);
+        context.setVariable("power", power);
+        context.setVariable("dayTime", dayTime);
+        String emailContent = templateEngine.process("UserLowPowerTemplate", context);
+
+        try {
+            //true表示需要创建一个multipart message
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(from);
+            helper.setTo(email);
+            helper.setSubject("寝室低电通知");
+            helper.setText(emailContent, true);
+
+            mailSender.send(message);
+            logger.info("html邮件发送成功");
+            return true;
+        } catch (MessagingException e) {
+            logger.error("发送html邮件时发生异常！", e);
+            return false;
+        }
     }
 
 }

@@ -113,11 +113,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result bindingDorm(String dorm, String token, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getFieldError().getDefaultMessage());
-            return ResultUtil.error(0, bindingResult.getFieldError().getDefaultMessage());
-        }
+    public Result bindingDorm(String dorm, String token) {
+//        if (bindingResult.hasErrors()) {
+//            System.out.println(bindingResult.getFieldError().getDefaultMessage());
+//            return ResultUtil.error(0, bindingResult.getFieldError().getDefaultMessage());
+//        }
 
         if(token == null) {
             return ResultUtil.error(20, "未登录");

@@ -8,5 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface PowerRepository extends JpaRepository<Power, Integer> {
 
-    Power findByDateNum(String dorm);
+    Power findByDormNum(String dorm);
+
 }
