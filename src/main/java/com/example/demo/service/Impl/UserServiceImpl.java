@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(codepw);
         user.setUserState(0);
         user.setUserCode(code);
-
+        user.setSendCount(0);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         user.setRegisterTime(df.format(new Date()));
 
@@ -131,6 +131,7 @@ public class UserServiceImpl implements UserService {
 
         user.setDorm(dorm);
         userRepository.save(user);
+
         return ResultUtil.success();
     }
 

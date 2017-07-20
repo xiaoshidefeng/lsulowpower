@@ -35,6 +35,8 @@ public class User {
     @Column(name = "user_token")
     private String userToken;
 
+    @Column(name = "send_count")
+    private Integer sendCount;
 
     public Integer getUserId() {
         return userId;
@@ -98,5 +100,13 @@ public class User {
 
     public void setUserToken(String userToken) {
         this.userToken = userToken;
+    }
+
+    public Integer getSendCount() {
+        return sendCount;
+    }
+
+    public void setSendCount(Integer sendCount) {
+        this.sendCount = sendCount;
     }
 }

@@ -39,14 +39,19 @@ public class SchedulerTaskFindAndSend {
         ArrayList<User> userArrayList = userRepository.findByDormNotNull();
 
         for(int i = 0; i < userArrayList.size(); i++ ) {
-            dorm = userArrayList.get(i).getDorm();
+            User user = userArrayList.get(i);
+            email = user.getUserEmail();
+            dorm = user.getDorm();
             Power power = powerRepository.findByDormNum(dorm);
 
             if(power != null) {
-                String email = userArrayList.get(i).getUserEmail();
+//                String email = userArrayList.get(i).getUserEmail();
                 String powerValue = power.getPowerNum();
                 String dayTime = power.getDateNum();
                 mailUtil.sendLowPowerMail(email, dorm, powerValue, dayTime);
+                //发送次数加一
+                user.setSendCount(user.getSendCount() + 1);
+                userRepository.save(user);
             }
         }
     }
