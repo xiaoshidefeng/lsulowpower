@@ -112,4 +112,26 @@ public class UserServiceImpl implements UserService {
         return ResultUtil.error(6, "邮件验证失败");
     }
 
+    @Override
+    public Result bindingDorm(String dorm, String token, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getFieldError().getDefaultMessage());
+            return ResultUtil.error(0, bindingResult.getFieldError().getDefaultMessage());
+        }
+
+        if(token == null) {
+            return ResultUtil.error(20, "未登录");
+        } else if(dorm == null) {
+            return ResultUtil.error(24, "未填写寝室信息");
+        }
+        User user = userRepository.findByUserToken(token);
+        if(user == null) {
+            return ResultUtil.error(22, "登录信息查询失败");
+        }
+
+        user.setDorm(dorm);
+        userRepository.save(user);
+        return ResultUtil.success();
+    }
+
 }

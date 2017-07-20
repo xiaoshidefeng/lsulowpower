@@ -57,4 +57,11 @@ public class MailUtil {
         }
     }
 
+    public boolean sendLowPowerMail(String email, String dorm, String power, String dayTime) {
+        MimeMessage message = mailSender.createMimeMessage();
+        dorm = dorm + "寝室";
+
+        return false;
+    }
+
 }

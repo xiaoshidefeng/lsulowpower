@@ -45,8 +45,28 @@ public class UserController {
         return userServiceImpl.userCheckMail(email, code);
     }
 
+    /**
+     * 用户登录
+     * @param user
+     * @param bindingResult
+     * @return
+     */
     @PostMapping("/login")
     public Result userLogin(@Valid User user, BindingResult bindingResult) {
         return userServiceImpl.loginUser(user, bindingResult);
+    }
+
+    /**
+     * 绑定寝室
+     * @param dorm
+     * @param token
+     * @param bindingResult
+     * @return
+     */
+    @PostMapping("/bindingDorm")
+    public Result bindingDorm(@RequestParam("dorm") String dorm,
+                              @RequestParam("token") String token,
+                              BindingResult bindingResult) {
+        return userServiceImpl.bindingDorm(dorm, token, bindingResult);
     }
 }

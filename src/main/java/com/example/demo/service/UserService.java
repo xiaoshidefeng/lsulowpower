@@ -12,4 +12,5 @@ public interface UserService {
     Result registerUser(User user, BindingResult bindingResult);
     Result loginUser(User user, BindingResult bindingResult);
     Result userCheckMail(String email, String code);
+    Result bindingDorm(String dorm, String token, BindingResult bindingResult);
 }

@@ -29,8 +29,12 @@ public class User {
     @Column(name = "register_time")
     private String registerTime;
 
+    @Column(name = "dorm")
+    private String dorm;
+
     @Column(name = "user_token")
     private String userToken;
+
 
     public Integer getUserId() {
         return userId;
@@ -78,6 +82,14 @@ public class User {
 
     public void setRegisterTime(String registerTime) {
         this.registerTime = registerTime;
+    }
+
+    public String getDorm() {
+        return dorm;
+    }
+
+    public void setDorm(String dorm) {
+        this.dorm = dorm;
     }
 
     public String getUserToken() {
