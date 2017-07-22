@@ -38,6 +38,10 @@ public class User {
     @Column(name = "send_count")
     private Integer sendCount;
 
+    @Column(name = "floor")
+    private String floor;
+
+
     public Integer getUserId() {
         return userId;
     }
@@ -108,5 +112,13 @@ public class User {
 
     public void setSendCount(Integer sendCount) {
         this.sendCount = sendCount;
+    }
+
+    public String getFloor() {
+        return floor;
+    }
+
+    public void setFloor(String floor) {
+        this.floor = floor;
     }
 }

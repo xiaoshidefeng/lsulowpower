@@ -117,15 +117,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result bindingDorm(String dorm, String token) {
+    public Result bindingDorm(String dorm, String token, String floor) {
 //        if (bindingResult.hasErrors()) {
 //            System.out.println(bindingResult.getFieldError().getDefaultMessage());
 //            return ResultUtil.error(0, bindingResult.getFieldError().getDefaultMessage());
 //        }
 
-        if(token == null) {
+        if(token == null || token.equals("")) {
             return ResultUtil.error(20, "未登录");
-        } else if(dorm == null) {
+        } else if(dorm == null || dorm.equals("") || floor.equals("")) {
             return ResultUtil.error(24, "未填写寝室信息");
         }
         User user = userRepository.findByUserToken(token);
@@ -134,6 +134,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setDorm(dorm);
+        user.setFloor(floor);
         userRepository.save(user);
 
         return ResultUtil.success();

@@ -32,27 +32,55 @@ public class SchedulerTaskFindAndSend {
 
     private String email;
 
-    @Scheduled(cron="*/30 * * * * ?")
+    private String building;
+
+    private String powerValue;
+    private String dayTime;
+
+    private String dayTimes = "2017-7-21";
+
+    @Scheduled(cron="0 0 6,7,8,9,10,11,12,15,17,20 * * ?")
     private void process(){
         System.out.println("this is scheduler task runing  "+(count++));
 
-        ArrayList<User> userArrayList = userRepository.findByDormNotNull();
+        Power powerone = powerRepository.findByPowerId(1);
+        if(!dayTimes.equals(powerone.getDateNum())) {
+            //每天只发一次
 
-        for(int i = 0; i < userArrayList.size(); i++ ) {
-            User user = userArrayList.get(i);
-            email = user.getUserEmail();
-            dorm = user.getDorm();
-            Power power = powerRepository.findByDormNum(dorm);
+            ArrayList<User> userArrayList = userRepository.findByDormNotNull();
 
-            if(power != null) {
-//                String email = userArrayList.get(i).getUserEmail();
-                String powerValue = power.getPowerNum();
-                String dayTime = power.getDateNum();
-                mailUtil.sendLowPowerMail(email, dorm, powerValue, dayTime);
-                //发送次数加一
-                user.setSendCount(user.getSendCount() + 1);
-                userRepository.save(user);
+            for(int i = 0; i < userArrayList.size(); i++ ) {
+                User user = userArrayList.get(i);
+                email = user.getUserEmail();
+                dorm = user.getDorm();
+                building = user.getFloor();
+                if(building != null && dorm != null && !building.equals("") && !dorm.equals("")) {
+                    List<Power> powerList = powerRepository.findByBuildingName(building);
+                    if(powerList != null) {
+                        for(int j =0; j < powerList.size(); j++) {
+                            if(powerList.get(j).getDormNum().equals(dorm)) {
+                                Power power = powerList.get(j);
+                                powerValue = power.getPowerNum();
+                                dayTime = power.getDateNum();
+
+                                //发送邮件
+                                mailUtil.sendLowPowerMail(email, dorm, powerValue, dayTime);
+                                //发送次数加一
+                                user.setSendCount(user.getSendCount() + 1);
+                                userRepository.save(user);
+                                break;
+
+                            }
+                        }
+                    }
+
+                }
+
             }
+
+            dayTimes = powerone.getDateNum();
         }
+
+
     }
 }
