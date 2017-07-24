@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by cw on 2017/7/20.
  */
 @Entity
-@Table(name = "lowpower")
+@Table(name = "LOWPOWER")
 public class Power {
 
     @Id

@@ -20,18 +20,22 @@ import java.util.Date;
 @SpringBootTest
 public class LsulowpowerApplicationTests {
 
-	@Autowired
-	private MailService mailService;
+//	@Autowired
+//	private MailService mailService;
+//
+//	@Autowired
+//	private MailUtil mailUtil;
+//
+//	@Autowired
+//	private TemplateEngine templateEngine;
+//
+//	@Autowired
+//	private UserServiceImpl userService;
 
-	@Autowired
-	private MailUtil mailUtil;
+	@Test
+	public void totest() {
 
-	@Autowired
-	private TemplateEngine templateEngine;
-
-	@Autowired
-	private UserServiceImpl userService;
-
+	}
 //
 //	@Test
 //	public void testSimpleMail() throws Exception {

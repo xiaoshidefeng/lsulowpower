@@ -3,10 +3,7 @@ package com.example.demo.service.Impl;
 import com.example.demo.domain.User;
 import com.example.demo.domain.repository.UserRepository;
 import com.example.demo.service.UserService;
-import com.example.demo.utils.CodeUtil;
-import com.example.demo.utils.MailUtil;
-import com.example.demo.utils.Result;
-import com.example.demo.utils.ResultUtil;
+import com.example.demo.utils.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private MailUtil mailUtil;
+
+    @Autowired
+    private CheckLowPower checkLowPower;
 
     @Override
     public Result registerUser(User user, BindingResult bindingResult) {
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
             user.setUserState(1);
             //TODO 关于时间的验证 待做
             userRepository.save(user);
-            return ResultUtil.success();
+            return ResultUtil.success("邮箱验证成功，请返回并进行登录");
         }
         return ResultUtil.error(6, "邮件验证失败");
     }
@@ -136,6 +136,8 @@ public class UserServiceImpl implements UserService {
         user.setDorm(dorm);
         user.setFloor(floor);
         userRepository.save(user);
+
+        checkLowPower.checkLowPower(user);
 
         return ResultUtil.success();
     }
