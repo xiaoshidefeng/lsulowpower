@@ -41,6 +41,12 @@ public class User {
     @Column(name = "floor")
     private String floor;
 
+    @Column(name = "user_ucode")
+    private String ucode;
+
+    @Column(name = "user_confirmcode")
+    private String confirmCode;
+
 
     public Integer getUserId() {
         return userId;
@@ -120,5 +126,21 @@ public class User {
 
     public void setFloor(String floor) {
         this.floor = floor;
+    }
+
+    public String getUcode() {
+        return ucode;
+    }
+
+    public void setUcode(String ucode) {
+        this.ucode = ucode;
+    }
+
+    public String getConfirmCode() {
+        return confirmCode;
+    }
+
+    public void setConfirmCode(String confirmCode) {
+        this.confirmCode = confirmCode;
     }
 }

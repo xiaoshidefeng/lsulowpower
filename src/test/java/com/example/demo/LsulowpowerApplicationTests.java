@@ -23,17 +23,18 @@ public class LsulowpowerApplicationTests {
 //	@Autowired
 //	private MailService mailService;
 //
-//	@Autowired
-//	private MailUtil mailUtil;
+	@Autowired
+	private MailUtil mailUtil;
 //
 //	@Autowired
 //	private TemplateEngine templateEngine;
 //
-//	@Autowired
-//	private UserServiceImpl userService;
+	@Autowired
+	private UserServiceImpl userService;
 
 	@Test
 	public void totest() {
+		userService.forgetPassword("1330661071@qq.com");
 
 	}
 //
@@ -51,6 +52,7 @@ public class LsulowpowerApplicationTests {
 //
 //		mailService.sendHtmlMail("1330661071@qq.com","主题：这是模板邮件",emailContent);
 //	}
+
 
 //	@Test
 //	public void sendRegister() {

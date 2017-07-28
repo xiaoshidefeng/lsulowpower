@@ -44,7 +44,19 @@ public class UserServiceImpl implements UserService {
             return ResultUtil.error(10, "邮箱不合法");
         }
         if(userRepository.findByUserEmail(user.getUserEmail()) != null) {
-            return ResultUtil.error(2, "邮箱已被注册");
+            User user1 = userRepository.findByUserEmail(user.getUserEmail());
+            int state = user1.getUserState();
+            if(state == 1) {
+                return ResultUtil.error(2, "邮箱已被注册");
+            }else {
+                //注册但未激活
+                if(mailUtil.sendRegisterMail(user1.getUserEmail(), user1.getUserCode())) {
+                    return ResultUtil.success(userRepository.save(user1));
+                }
+                return ResultUtil.error(4, "邮件发送失败");
+
+            }
+
         }
 
         //加盐
@@ -107,6 +119,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result userCheckMail(String email, String code) {
         User user = userRepository.findByUserCode(code);
+        if(user == null) {
+            return ResultUtil.error(6, "邮件验证失败");
+        }
         if(user.getUserEmail() != null && user.getUserEmail().equals(email)) {
             user.setUserState(1);
             //TODO 关于时间的验证 待做
@@ -140,6 +155,59 @@ public class UserServiceImpl implements UserService {
         checkLowPower.checkLowPower(user);
 
         return ResultUtil.success();
+    }
+
+    @Override
+    public Result forgetPassword(String email) {
+        User user = userRepository.findByUserEmail(email);
+        if(user == null) {
+            return ResultUtil.error(28, "找回密码失败");
+        }
+        String randcode = CodeUtil.generateRandNum();
+        user.setConfirmCode(randcode);
+        userRepository.save(user);
+        if(mailUtil.sendFindBackPasswordCodeMail(email, randcode)) {
+
+            return ResultUtil.success("验证邮件发送成功");
+        }
+
+        return ResultUtil.error(-1, "未知错误");
+    }
+
+//    @Override
+//    public Result findBackPassword(String email, String ucode) {
+//        User user = userRepository.findByUcode(ucode);
+//        if(user == null) {
+//            return ResultUtil.error(28, "找回密码失败");
+//        }
+//        if(user.getUserEmail().equals(email)) {
+//            //TODO
+//            return ResultUtil.success();
+//        }
+//        return ResultUtil.error(-1, "未知错误");
+//    }
+
+    @Override
+    public Result findBackPasswordByConfirmCode(String email, String code, String newPassword) {
+        if(email.equals("") || code ==null || newPassword == null ||
+                email.equals("") || code.equals("") || newPassword.equals("")) {
+            return ResultUtil.error(16, "输入为空");
+        }
+
+        User user = userRepository.findByUserEmail(email);
+        if(user == null) {
+            return ResultUtil.error(28, "找回密码失败");
+        }
+
+        if(!user.getConfirmCode().equals(code)) {
+            return ResultUtil.error(30, "验证码错误");
+        }
+        //加盐
+        String codepw = CodeUtil.generateCode(newPassword);
+        user.setPassword(codepw);
+        userRepository.save(user);
+        return ResultUtil.success();
+
     }
 
 }

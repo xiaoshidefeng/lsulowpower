@@ -22,21 +22,23 @@
         <center></center>
         <div style="margin: 80px auto 0; width: 580px; background: #FFF; box-shadow: 0 0 10px #333; text-align:left;">
             <div style="margin: 0 40px; color: #999; border-bottom: 1px dotted #DDD; padding: 40px 0 30px; font-size: 13px; text-align: center;">
-                </a><br></br>
+                <br></br>
                 低电查询
             </div>
             <div style="padding: 30px 40px 40px;">
-                您好，感谢您注册 低电查询
+                您好，这是密码找回邮件
                 <br></br>
-                请在 24 小时内点击此链接以完成注册
-                <a style="color: #009A61; text-decoration: none;" href="#" th:href="${register_link}" target="_blank" th:text="${register_link}">
+                要找回的的账号<span th:text="${email}">email</span>
+                <br></br>
+                如果确认是本人操作，请在 24 小时内点击此链接
+                <a style="color: #009A61; text-decoration: none;" href="#" th:href="${findback_link}" target="_blank" th:text="${findback_link}">
                 </a>
                 <br></br>
-                激活遇到问题？请联系我们 a1330661071@gmail.com
+                找回密码遇到问题？请联系我们 a1330661071@gmail.com
             </div>
 
             <div style="background: #EEE; border-top: 1px solid #DDD; text-align: center; height: 90px; line-height: 90px;">
-                <a href="#" th:href="${register_link}" style="padding: 8px 18px; background: #009A61; color: #FFF; text-decoration: none; border-radius: 3px;" target="_blank">完成注册 ➔</a>
+                <a href="#" th:href="${findback_link}" style="padding: 8px 18px; background: #009A61; color: #FFF; text-decoration: none; border-radius: 3px;" target="_blank">找回密码 ➔</a>
             </div>
         </div>
 

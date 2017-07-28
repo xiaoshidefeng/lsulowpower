@@ -60,7 +60,7 @@ public class UserController {
      * 绑定寝室
      * @param dorm
      * @param token
-     * @param bindingResult
+     * @param
      * @return
      */
     @PostMapping("/bindingDorm")
@@ -68,5 +68,29 @@ public class UserController {
                               @RequestParam("token") String token,
                               @RequestParam("floor") String floor) {
         return userServiceImpl.bindingDorm(dorm, token, floor);
+    }
+
+//    @GetMapping("/forget_password/email={email}")
+//    public Result forgetPassword(@PathVariable("email") String email) {
+//        System.out.println("1111111111" + email);
+//        return userServiceImpl.forgetPassword(email);
+//    }
+
+    @PostMapping("/forget_password")
+    public Result forgetPassword(@RequestParam("email") String email) {
+        return userServiceImpl.forgetPassword(email);
+    }
+
+//    @GetMapping("/email={email}/ucode={ucode}")
+//    public Result findBackPW(@PathVariable("email") String email,
+//                             @PathVariable("ucode") String ucode) {
+//        return userServiceImpl.findBackPassword(email, ucode);
+//    }
+
+    @PostMapping("/reset_password")
+    public Result resetPassword(@RequestParam("email") String email,
+                                @RequestParam("confirmCode") String confirmCode,
+                                @RequestParam("newPassword") String newPassword) {
+        return  userServiceImpl.findBackPasswordByConfirmCode(email, confirmCode, newPassword);
     }
 }

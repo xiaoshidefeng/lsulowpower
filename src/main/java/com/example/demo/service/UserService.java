@@ -13,4 +13,7 @@ public interface UserService {
     Result loginUser(User user, BindingResult bindingResult);
     Result userCheckMail(String email, String code);
     Result bindingDorm(String dorm, String token, String floor);
+    Result forgetPassword(String email);
+//    Result findBackPassword(String email, String ucode);
+    Result findBackPasswordByConfirmCode(String email, String code, String newPasswrod);
 }

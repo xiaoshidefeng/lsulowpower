@@ -13,4 +13,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUserCode(String code);
     User findByUserToken(String token);
     ArrayList<User> findByDormNotNull();
+    User findByUcode(String ucode);
 }
