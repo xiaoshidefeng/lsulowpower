@@ -23,18 +23,18 @@ public class LsulowpowerApplicationTests {
 //	@Autowired
 //	private MailService mailService;
 //
-	@Autowired
-	private MailUtil mailUtil;
+//	@Autowired
+//	private MailUtil mailUtil;
 //
 //	@Autowired
 //	private TemplateEngine templateEngine;
 //
-	@Autowired
-	private UserServiceImpl userService;
+//	@Autowired
+//	private UserServiceImpl userService;
 
 	@Test
 	public void totest() {
-		userService.forgetPassword("1330661071@qq.com");
+//		userService.forgetPassword("1330661071@qq.com");
 
 	}
 //

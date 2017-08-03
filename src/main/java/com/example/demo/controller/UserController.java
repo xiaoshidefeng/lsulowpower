@@ -70,23 +70,25 @@ public class UserController {
         return userServiceImpl.bindingDorm(dorm, token, floor);
     }
 
-//    @GetMapping("/forget_password/email={email}")
-//    public Result forgetPassword(@PathVariable("email") String email) {
-//        System.out.println("1111111111" + email);
-//        return userServiceImpl.forgetPassword(email);
-//    }
 
+    /**
+     * 发送验证邮件
+     * @param email
+     * @return
+     */
     @PostMapping("/forget_password")
     public Result forgetPassword(@RequestParam("email") String email) {
         return userServiceImpl.forgetPassword(email);
     }
 
-//    @GetMapping("/email={email}/ucode={ucode}")
-//    public Result findBackPW(@PathVariable("email") String email,
-//                             @PathVariable("ucode") String ucode) {
-//        return userServiceImpl.findBackPassword(email, ucode);
-//    }
 
+    /**
+     * 重置密码
+     * @param email
+     * @param confirmCode
+     * @param newPassword
+     * @return
+     */
     @PostMapping("/reset_password")
     public Result resetPassword(@RequestParam("email") String email,
                                 @RequestParam("confirmCode") String confirmCode,
