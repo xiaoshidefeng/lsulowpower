@@ -92,6 +92,21 @@ public class MailUtil {
 
     }
 
+    public boolean sendFeedbackMail(String content, String user, String time) {
+        MimeMessage message = mailSender.createMimeMessage();
+
+
+        //创建邮件正文
+        Context context = new Context();
+        context.setVariable("feedback_content", content);
+        context.setVariable("feedback_user", user);
+        context.setVariable("time", time);
+        String emailContent = templateEngine.process("FeedbackTemplate", context);
+        String sub = "低电查询用户反馈邮件";
+
+        return tosend(message, "1330661071@qq.com", emailContent, sub);
+    }
+
     private boolean tosend(MimeMessage message, String email, String emailContent, String sub) {
         try {
             //true表示需要创建一个multipart message

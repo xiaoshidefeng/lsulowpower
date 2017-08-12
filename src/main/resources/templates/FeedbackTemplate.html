@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> </meta>
+    <title>低电查询反馈</title>
+</head>
+<body>
+<div id="qm_con_body">
+    <div id="mailContentContainer" class="qmbox qm_con_body_content qqmail_webmail_only">
+
+        <style>
+            .qmbox a {
+                color: #009A61;
+                text-decoration: none;
+            }
+            .qmbox h4 {
+                font-size: 15px;
+                font-weight: bold;
+            }
+        </style>
+
+        <center></center>
+        <div style="margin: 80px auto 0; width: 580px; background: #FFF; box-shadow: 0 0 10px #333; text-align:left;">
+            <div style="margin: 0 40px; color: #999; border-bottom: 1px dotted #DDD; padding: 40px 0 30px; font-size: 13px; text-align: center;">
+                <br></br>
+                低电查询反馈
+            </div>
+            <div style="padding: 30px 40px 40px;">
+                以下是反馈邮件内容：
+                <br></br>
+                <span th:text="${feedback_content}"></span>
+                <br></br>
+                <br></br>
+                用户：
+                <span th:text="${feedback_user}"></span>
+                <div style="text-align: right;">
+                    <br></br>
+                    <br></br>
+                    <span th:text="${time}">2017年</span>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <br></br>
+        <div style="width:1px;height:0px;overflow:hidden">
+            <img style="width:0;height:0" src="javascript:;"></img>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
