@@ -1,7 +1,9 @@
 package com.example.demo.service.Impl;
 
 import com.example.demo.domain.Feedback;
+import com.example.demo.domain.User;
 import com.example.demo.domain.repository.FeedbackRepository;
+import com.example.demo.domain.repository.UserRepository;
 import com.example.demo.service.FeedbackService;
 import com.example.demo.utils.MailUtil;
 import com.example.demo.utils.Result;
@@ -20,6 +22,9 @@ public class FeedbackServiceImpl implements FeedbackService{
     private FeedbackRepository feedbackRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private MailUtil mailUtil;
 
     @Override
@@ -34,8 +39,12 @@ public class FeedbackServiceImpl implements FeedbackService{
         if(feedback.getFeedbackUser() == null || feedback.getFeedbackUser().equals("")) {
             return ResultUtil.error(20, "未登录");
         }
+        User user = userRepository.findByUserEmail(feedback.getFeedbackUser());
 
-        //TODO 验证用户是否登录
+        if(user == null) {
+            return ResultUtil.error(20, "未登录");
+        }
+
 
         if (mailUtil.sendFeedbackMail(feedback.getFeedbackContent(), feedback.getFeedbackUser(), feedback.getFeedbackTime())) {
             return ResultUtil.success(feedbackRepository.save(feedback));
