@@ -5,6 +5,8 @@ import com.example.demo.domain.repository.UserRepository;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.*;
 
+import com.example.demo.utils.Enums.ResultEnums;
+import com.example.demo.utils.Exception.UserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,27 +35,27 @@ public class UserServiceImpl implements UserService {
 
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getFieldError().getDefaultMessage());
-            return ResultUtil.error(0, bindingResult.getFieldError().getDefaultMessage());
+            return ResultUtil.error(ResultEnums.UNKONW_ERROR);
         } else if(user.getUserEmail() == null || user.getPassword() == null ||
                 user.getUserEmail().equals("") || user.getPassword().equals("")) {
-            return ResultUtil.error(8, "非法输入");
+            return ResultUtil.error(ResultEnums.ILLEGAL_INPUT);
         }
-//        System.out.println("1111111111111111111" + user.getUserEmail());
+
         //正则表达式验证邮箱
         if(!user.getUserEmail().matches("^\\w+@(\\w+\\.)+\\w+$")) {
-            return ResultUtil.error(10, "邮箱不合法");
+            return ResultUtil.error(ResultEnums.MAIL_ILLEGAL);
         }
         if(userRepository.findByUserEmail(user.getUserEmail()) != null) {
             User user1 = userRepository.findByUserEmail(user.getUserEmail());
             int state = user1.getUserState();
             if(state == 1) {
-                return ResultUtil.error(2, "邮箱已被注册");
+                return ResultUtil.error(ResultEnums.MAIL_IS_REGISTE);
             }else {
                 //注册但未激活
                 if(mailUtil.sendRegisterMail(user1.getUserEmail(), user1.getUserCode())) {
                     return ResultUtil.success(userRepository.save(user1));
                 }
-                return ResultUtil.error(4, "邮件发送失败");
+                return ResultUtil.error(ResultEnums.MAIL_SEND_FAIL);
 
             }
 
@@ -72,7 +74,7 @@ public class UserServiceImpl implements UserService {
         if(mailUtil.sendRegisterMail(user.getUserEmail(), code)) {
             return ResultUtil.success(userRepository.save(user));
         }
-        return ResultUtil.error(4, "邮件发送失败");
+        return ResultUtil.error(ResultEnums.MAIL_SEND_FAIL);
     }
 
     @Transactional
@@ -81,14 +83,14 @@ public class UserServiceImpl implements UserService {
 
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getFieldError().getDefaultMessage());
-            return ResultUtil.error(0, bindingResult.getFieldError().getDefaultMessage());
+            return ResultUtil.error(ResultEnums.UNKONW_ERROR);
         }
 
         String jwtToken = "";
 
         if (user.getUserEmail() == null || user.getPassword() == null ||
                 user.getUserEmail().equals("") || user.getPassword().equals("")) {
-            return ResultUtil.error(16, "输入为空");
+            return ResultUtil.error(ResultEnums.INPUT_NULL);
         }
 
         String email = user.getUserEmail();
@@ -96,17 +98,17 @@ public class UserServiceImpl implements UserService {
         User newuser = userRepository.findByUserEmail(email);
 
         if (newuser == null) {
-            return ResultUtil.error(12, "用户不存在");
+            return ResultUtil.error(ResultEnums.USER_NOT_EXIST);
         }
 
         String password = CodeUtil.generateCode(user.getPassword());
 
         if (!password.equals(newuser.getPassword())) {
-            return ResultUtil.error(14, "密码错误");
+            return ResultUtil.error(ResultEnums.PASSWORD_ERROR);
         }
 
         if(newuser.getUserState() == 0) {
-            return ResultUtil.error(26, "未验证邮箱，账号未激活 ");
+            return ResultUtil.error(ResultEnums.NOT_CONFIRM_MAIL);
         }
 
         jwtToken = CodeUtil.generateToken(email);
@@ -120,7 +122,7 @@ public class UserServiceImpl implements UserService {
     public Result userCheckMail(String email, String code) {
         User user = userRepository.findByUserCode(code);
         if(user == null) {
-            return ResultUtil.error(6, "邮件验证失败");
+            return ResultUtil.error(ResultEnums.MAIL_CONFIRM_FAIL);
         }
         if(user.getUserEmail() != null && user.getUserEmail().equals(email)) {
             user.setUserState(1);
@@ -128,24 +130,20 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             return ResultUtil.success("邮箱验证成功，请返回并进行登录");
         }
-        return ResultUtil.error(6, "邮件验证失败");
+        return ResultUtil.error(ResultEnums.MAIL_CONFIRM_FAIL);
     }
 
     @Override
     public Result bindingDorm(String dorm, String token, String floor) {
-//        if (bindingResult.hasErrors()) {
-//            System.out.println(bindingResult.getFieldError().getDefaultMessage());
-//            return ResultUtil.error(0, bindingResult.getFieldError().getDefaultMessage());
-//        }
 
         if(token == null || token.equals("")) {
-            return ResultUtil.error(20, "未登录");
+            return ResultUtil.error(ResultEnums.NOT_LOGIN);
         } else if(dorm == null || dorm.equals("") || floor.equals("")) {
-            return ResultUtil.error(24, "未填写寝室信息");
+            return ResultUtil.error(ResultEnums.NOT_INPUT_DORM_INFO);
         }
         User user = userRepository.findByUserToken(token);
         if(user == null) {
-            return ResultUtil.error(22, "登录信息查询失败");
+            return ResultUtil.error(ResultEnums.LOGIN_INFO_FIND_FAIL);
         }
 
         user.setDorm(dorm);
@@ -161,7 +159,7 @@ public class UserServiceImpl implements UserService {
     public Result forgetPassword(String email) {
         User user = userRepository.findByUserEmail(email);
         if(user == null) {
-            return ResultUtil.error(28, "找回密码失败");
+            return ResultUtil.error(ResultEnums.FINDBACK_PASSWORD_FAIL);
         }
         String randcode = CodeUtil.generateRandNum();
         user.setConfirmCode(randcode);
@@ -171,36 +169,23 @@ public class UserServiceImpl implements UserService {
             return ResultUtil.success("验证邮件发送成功");
         }
 
-        return ResultUtil.error(-1, "未知错误");
+        return ResultUtil.error(ResultEnums.UNKONW_ERROR);
     }
-
-//    @Override
-//    public Result findBackPassword(String email, String ucode) {
-//        User user = userRepository.findByUcode(ucode);
-//        if(user == null) {
-//            return ResultUtil.error(28, "找回密码失败");
-//        }
-//        if(user.getUserEmail().equals(email)) {
-//            //TODO
-//            return ResultUtil.success();
-//        }
-//        return ResultUtil.error(-1, "未知错误");
-//    }
 
     @Override
     public Result findBackPasswordByConfirmCode(String email, String code, String newPassword) {
         if(email.equals("") || code ==null || newPassword == null ||
                 email.equals("") || code.equals("") || newPassword.equals("")) {
-            return ResultUtil.error(16, "输入为空");
+            return ResultUtil.error(ResultEnums.INPUT_NULL);
         }
 
         User user = userRepository.findByUserEmail(email);
         if(user == null) {
-            return ResultUtil.error(28, "找回密码失败");
+            return ResultUtil.error(ResultEnums.FINDBACK_PASSWORD_FAIL);
         }
 
         if(!user.getConfirmCode().equals(code)) {
-            return ResultUtil.error(30, "验证码错误");
+            return ResultUtil.error(ResultEnums.CONFIRM_CODE_ERROR);
         }
         //加盐
         String codepw = CodeUtil.generateCode(newPassword);

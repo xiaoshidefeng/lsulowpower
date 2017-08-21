@@ -1,5 +1,7 @@
 package com.example.demo.utils;
 
+import com.example.demo.utils.Enums.ResultEnums;
+
 /**
  * Created by cw on 2017/7/19.
  */
@@ -17,10 +19,10 @@ public class ResultUtil {
         return success(null);
     }
 
-    public static Result error(Integer code, String msg) {
+    public static Result error(ResultEnums resultEnums) {
         Result result = new Result();
-        result.setCode(code);
-        result.setMsg(msg);
+        result.setCode(resultEnums.getCode());
+        result.setMsg(resultEnums.getMsg());
 
         return result;
     }
