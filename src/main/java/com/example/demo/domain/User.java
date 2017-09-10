@@ -38,6 +38,9 @@ public class User {
     @Column(name = "send_count")
     private Integer sendCount;
 
+    @Column(name = "send_state")
+    private Boolean sendState;
+
     @Column(name = "floor")
     private String floor;
 
@@ -47,6 +50,13 @@ public class User {
     @Column(name = "user_confirmcode")
     private String confirmCode;
 
+    public Boolean getSendState() {
+        return sendState;
+    }
+
+    public void setSendState(Boolean sendState) {
+        this.sendState = sendState;
+    }
 
     public Integer getUserId() {
         return userId;

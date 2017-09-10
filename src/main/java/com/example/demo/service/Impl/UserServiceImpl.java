@@ -1,5 +1,6 @@
 package com.example.demo.service.Impl;
 
+import com.example.demo.domain.DormAndToken;
 import com.example.demo.domain.User;
 import com.example.demo.domain.repository.UserRepository;
 import com.example.demo.service.UserService;
@@ -86,7 +87,6 @@ public class UserServiceImpl implements UserService {
             return ResultUtil.error(ResultEnums.UNKONW_ERROR);
         }
 
-        String jwtToken = "";
 
         if (user.getUserEmail() == null || user.getPassword() == null ||
                 user.getUserEmail().equals("") || user.getPassword().equals("")) {
@@ -111,11 +111,22 @@ public class UserServiceImpl implements UserService {
             return ResultUtil.error(ResultEnums.NOT_CONFIRM_MAIL);
         }
 
-        jwtToken = CodeUtil.generateToken(email);
+        DormAndToken dormAndToken = new DormAndToken();
+        if(IsNull.isNullField(newuser.getFloor()) ||
+                IsNull.isNullField(newuser.getDorm())) {
+            dormAndToken.setFloor("not_set");
+            dormAndToken.setDorm("not_set");
+        }else {
+            dormAndToken.setFloor(newuser.getFloor());
+            dormAndToken.setDorm(newuser.getDorm());
+        }
 
+        String jwtToken = CodeUtil.generateToken(email);
         newuser.setUserToken(jwtToken);
         userRepository.save(newuser);
-        return ResultUtil.success(jwtToken);
+        dormAndToken.setUserToken(jwtToken);
+
+        return ResultUtil.success(dormAndToken);
     }
 
     @Override
@@ -148,10 +159,27 @@ public class UserServiceImpl implements UserService {
 
         user.setDorm(dorm);
         user.setFloor(floor);
+        user.setSendState(true);
         userRepository.save(user);
 
         checkLowPower.checkLowPower(user);
 
+        return ResultUtil.success();
+    }
+
+    @Override
+    public Result cancelBinding(String token) {
+        if (IsNull.isNullField(token)) {
+            return ResultUtil.error(ResultEnums.INPUT_NULL);
+        }
+        User user = userRepository.findByUserToken(token);
+        if (user == null) {
+            return ResultUtil.error(ResultEnums.NOT_LOGIN);
+        }
+        user.setSendState(false);
+        user.setDorm("");
+        user.setFloor("");
+        userRepository.save(user);
         return ResultUtil.success();
     }
 

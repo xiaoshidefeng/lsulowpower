@@ -3,6 +3,7 @@ package com.example.demo;
 import com.example.demo.domain.User;
 import com.example.demo.service.Impl.UserServiceImpl;
 import com.example.demo.utils.CodeUtil;
+import com.example.demo.utils.IsNull;
 import com.example.demo.utils.MailUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +36,14 @@ public class LsulowpowerApplicationTests {
 	@Test
 	public void totest() {
 //		userService.forgetPassword("1330661071@qq.com");
+//		String s1 = "1212";
+//		String s2 = "123";
+//		if (IsNull.isNullField(s1, s2)) {
+//			System.out.println("1111111111");
+//		} else {
+//			System.out.println("2222222222");
+//
+//		}
 
 	}
 //

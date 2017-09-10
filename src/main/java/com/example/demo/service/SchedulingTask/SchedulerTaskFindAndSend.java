@@ -4,6 +4,7 @@ import com.example.demo.domain.Power;
 import com.example.demo.domain.User;
 import com.example.demo.domain.repository.PowerRepository;
 import com.example.demo.domain.repository.UserRepository;
+import com.example.demo.utils.IsNull;
 import com.example.demo.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -51,10 +52,13 @@ public class SchedulerTaskFindAndSend {
 
             for(int i = 0; i < userArrayList.size(); i++ ) {
                 User user = userArrayList.get(i);
+                if (!user.getSendState()) {
+                    continue;
+                }
                 email = user.getUserEmail();
                 dorm = user.getDorm();
                 building = user.getFloor();
-                if(building != null && dorm != null && !building.equals("") && !dorm.equals("")) {
+                if(IsNull.isNullField(dorm, building)) {
                     List<Power> powerList = powerRepository.findByBuildingName(building);
                     if(powerList != null) {
                         for(int j =0; j < powerList.size(); j++) {

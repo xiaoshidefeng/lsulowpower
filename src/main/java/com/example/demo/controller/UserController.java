@@ -93,6 +93,12 @@ public class UserController {
     public Result resetPassword(@RequestParam("email") String email,
                                 @RequestParam("confirmCode") String confirmCode,
                                 @RequestParam("newPassword") String newPassword) {
-        return  userServiceImpl.findBackPasswordByConfirmCode(email, confirmCode, newPassword);
+        return userServiceImpl.findBackPasswordByConfirmCode(email, confirmCode, newPassword);
     }
+
+    @PostMapping("/cancel_binding")
+    public Result cancelBinding(@RequestParam("token") String token) {
+        return userServiceImpl.cancelBinding(token);
+    }
+
 }
