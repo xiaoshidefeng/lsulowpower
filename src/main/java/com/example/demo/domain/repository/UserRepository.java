@@ -10,8 +10,12 @@ import java.util.ArrayList;
  */
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUserEmail(String userEmail);
+
     User findByUserCode(String code);
+
     User findByUserToken(String token);
+
     ArrayList<User> findByDormNotNull();
+
     User findByUcode(String ucode);
 }

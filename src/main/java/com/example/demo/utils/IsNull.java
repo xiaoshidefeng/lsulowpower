@@ -21,7 +21,16 @@ public class IsNull {
         if (s1_is_null || s2_is_null) {
             return true;
         }
+        return false;
+    }
 
+    public static boolean isNullField(String s1, String s2, String s3) {
+        Boolean s1_is_null = s1 == null || s1.equals("");
+        Boolean s2_is_null = s2 == null || s2.equals("");
+        Boolean s3_is_null = s3 == null || s3.equals("");
+        if (s1_is_null || s2_is_null || s3_is_null) {
+            return true;
+        }
         return false;
     }
 }

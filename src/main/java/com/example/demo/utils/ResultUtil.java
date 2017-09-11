@@ -7,7 +7,7 @@ import com.example.demo.utils.Enums.ResultEnums;
  */
 public class ResultUtil {
     public static Result success(Object object) {
-        Result result =new Result();
+        Result result = new Result();
         result.setCode(200);
         result.setMsg("success");
         result.setData(object);

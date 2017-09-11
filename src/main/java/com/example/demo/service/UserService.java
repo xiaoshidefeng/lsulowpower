@@ -10,11 +10,16 @@ import org.springframework.validation.BindingResult;
  */
 public interface UserService {
     Result registerUser(User user, BindingResult bindingResult);
+
     Result loginUser(User user, BindingResult bindingResult);
+
     Result userCheckMail(String email, String code);
+
     Result bindingDorm(String dorm, String token, String floor);
+
     Result cancelBinding(String token);
+
     Result forgetPassword(String email);
-//    Result findBackPassword(String email, String ucode);
+
     Result findBackPasswordByConfirmCode(String email, String code, String newPasswrod);
 }

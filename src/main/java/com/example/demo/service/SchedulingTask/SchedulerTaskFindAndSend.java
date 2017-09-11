@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Component
 public class SchedulerTaskFindAndSend {
-    private int count=0;
+    private int count = 0;
 
     @Autowired
     private UserRepository userRepository;
@@ -40,17 +40,17 @@ public class SchedulerTaskFindAndSend {
 
     private String dayTimes = "2017-7-21";
 
-    @Scheduled(cron="0 0 6,7,8,9,10,11,12,15,17,20 * * ?")
-    private void process(){
-        System.out.println("this is scheduler task runing  "+(count++));
+    @Scheduled(cron = "0 0 6,7,8,9,10,11,12,15,17,20 * * ?")
+    private void process() {
+        System.out.println("this is scheduler task runing  " + (count++));
 
         Power powerone = powerRepository.findByPowerId(1);
-        if(!dayTimes.equals(powerone.getDateNum())) {
+        if (!dayTimes.equals(powerone.getDateNum())) {
             //每天只发一次
 
             ArrayList<User> userArrayList = userRepository.findByDormNotNull();
 
-            for(int i = 0; i < userArrayList.size(); i++ ) {
+            for (int i = 0; i < userArrayList.size(); i++) {
                 User user = userArrayList.get(i);
                 if (!user.getSendState()) {
                     continue;
@@ -58,11 +58,11 @@ public class SchedulerTaskFindAndSend {
                 email = user.getUserEmail();
                 dorm = user.getDorm();
                 building = user.getFloor();
-                if(IsNull.isNullField(dorm, building)) {
+                if (IsNull.isNullField(dorm, building)) {
                     List<Power> powerList = powerRepository.findByBuildingName(building);
-                    if(powerList != null) {
-                        for(int j =0; j < powerList.size(); j++) {
-                            if(powerList.get(j).getDormNum().equals(dorm)) {
+                    if (powerList != null) {
+                        for (int j = 0; j < powerList.size(); j++) {
+                            if (powerList.get(j).getDormNum().equals(dorm)) {
                                 Power power = powerList.get(j);
                                 powerValue = power.getPowerNum();
                                 dayTime = power.getDateNum();

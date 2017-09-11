@@ -6,6 +6,7 @@ import com.example.demo.domain.repository.FeedbackRepository;
 import com.example.demo.domain.repository.UserRepository;
 import com.example.demo.service.FeedbackService;
 import com.example.demo.utils.Enums.ResultEnums;
+import com.example.demo.utils.IsNull;
 import com.example.demo.utils.MailUtil;
 import com.example.demo.utils.Result;
 import com.example.demo.utils.ResultUtil;
@@ -17,7 +18,7 @@ import org.springframework.validation.BindingResult;
  * Created by cw on 2017/8/12.
  */
 @Service
-public class FeedbackServiceImpl implements FeedbackService{
+public class FeedbackServiceImpl implements FeedbackService {
 
     @Autowired
     private FeedbackRepository feedbackRepository;
@@ -34,22 +35,22 @@ public class FeedbackServiceImpl implements FeedbackService{
             System.out.println(bindingResult.getFieldError().getDefaultMessage());
             return ResultUtil.error(ResultEnums.UNKONW_ERROR);
         }
-        if(feedback ==null || feedback.getFeedbackContent() == null || feedback.getFeedbackContent().equals("")) {
+        if (feedback == null || IsNull.isNullField(feedback.getFeedbackContent())) {
             return ResultUtil.error(ResultEnums.INPUT_NULL);
         }
-        if(feedback.getFeedbackUser() == null || feedback.getFeedbackUser().equals("")) {
+        if (IsNull.isNullField(feedback.getFeedbackUser())) {
             return ResultUtil.error(ResultEnums.NOT_LOGIN);
         }
         User user = userRepository.findByUserEmail(feedback.getFeedbackUser());
 
-        if(user == null) {
+        if (user == null) {
             return ResultUtil.error(ResultEnums.NOT_LOGIN);
         }
 
 
         if (mailUtil.sendFeedbackMail(feedback.getFeedbackContent(), feedback.getFeedbackUser(), feedback.getFeedbackTime())) {
             return ResultUtil.success(feedbackRepository.save(feedback));
-        }else {
+        } else {
             return ResultUtil.error(ResultEnums.MAIL_SEND_FAIL);
         }
 

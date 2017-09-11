@@ -10,9 +10,11 @@ import java.util.List;
  */
 public interface PowerRepository extends JpaRepository<Power, Integer> {
 
-//    List<Power> findByDormNum(String dorm);
+    //    List<Power> findByDormNum(String dorm);
     List<Power> findByDormNumLike(String dorm);
+
     List<Power> findByBuildingName(String building);
+
     Power findByPowerId(Integer id);
 
 }

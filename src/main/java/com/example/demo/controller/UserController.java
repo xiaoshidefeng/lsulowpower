@@ -22,6 +22,7 @@ public class UserController {
 
     /**
      * 用户注册
+     *
      * @param user
      * @param bindingResult
      * @return
@@ -34,6 +35,7 @@ public class UserController {
 
     /**
      * 邮箱验证
+     *
      * @param email
      * @param code
      * @return
@@ -47,6 +49,7 @@ public class UserController {
 
     /**
      * 用户登录
+     *
      * @param user
      * @param bindingResult
      * @return
@@ -58,6 +61,7 @@ public class UserController {
 
     /**
      * 绑定寝室
+     *
      * @param dorm
      * @param token
      * @param
@@ -73,6 +77,7 @@ public class UserController {
 
     /**
      * 发送验证邮件
+     *
      * @param email
      * @return
      */
@@ -84,6 +89,7 @@ public class UserController {
 
     /**
      * 重置密码
+     *
      * @param email
      * @param confirmCode
      * @param newPassword

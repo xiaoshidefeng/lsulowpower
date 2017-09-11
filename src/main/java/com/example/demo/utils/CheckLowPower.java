@@ -28,12 +28,11 @@ public class CheckLowPower {
         String email = user.getUserEmail();
         String dorm = user.getDorm();
         String building = user.getFloor();
-        System.out.println("111111111111111111111111" + building);
         List<Power> powerList = powerRepository.findByBuildingName(building);
-        if(building != null && dorm != null && !building.equals("") && !dorm.equals("")) {
-            if(powerList != null) {
-                for(int j =0; j < powerList.size(); j++) {
-                    if(powerList.get(j).getDormNum().equals(dorm)) {
+        if (building != null && dorm != null && !building.equals("") && !dorm.equals("")) {
+            if (powerList != null) {
+                for (int j = 0; j < powerList.size(); j++) {
+                    if (powerList.get(j).getDormNum().equals(dorm)) {
                         Power power = powerList.get(j);
                         String powerValue = power.getPowerNum();
                         String dayTime = power.getDateNum();

@@ -34,7 +34,7 @@ public class MailUtil {
     public boolean sendRegisterMail(String email, String code) {
         MimeMessage message = mailSender.createMimeMessage();
 
-        String register_link = "http://118.89.159.95:10352/api/email=" + email + "/code=" +code;
+        String register_link = "http://118.89.159.95:10352/api/email=" + email + "/code=" + code;
 
         //创建邮件正文
         Context context = new Context();
@@ -64,7 +64,7 @@ public class MailUtil {
 
         MimeMessage message = mailSender.createMimeMessage();
 
-        String findback_link = "http://localhost:10352/api/email=" + email + "/ucode=" +uuid;
+        String findback_link = "http://localhost:10352/api/email=" + email + "/ucode=" + uuid;
 
         //创建邮件正文
         Context context = new Context();

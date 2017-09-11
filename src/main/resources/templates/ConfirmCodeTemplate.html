@@ -13,6 +13,7 @@
                 color: #009A61;
                 text-decoration: none;
             }
+
             .qmbox h4 {
                 font-size: 15px;
                 font-weight: bold;
@@ -31,7 +32,7 @@
                 要找回的的账号<span th:text="${email}">email</span>
                 <br></br>
                 如果确认是本人操作，请用下面的验证码重置密码：
-                <h1 ><span th:text="${confirm_code}">11111</span></h1>
+                <h1><span th:text="${confirm_code}">11111</span></h1>
                 <br></br>
                 找回密码遇到问题？请联系我们 a1330661071@gmail.com
             </div>
@@ -39,11 +40,12 @@
         </div>
 
 
-
         <br></br>
         <div style="width:1px;height:0px;overflow:hidden"><img style="width:0;height:0" src="javascript:;"></img></div>
 
-        <style type="text/css">.qmbox style, .qmbox script, .qmbox head, .qmbox link, .qmbox meta {display: none !important;}</style>
+        <style type="text/css">.qmbox style, .qmbox script, .qmbox head, .qmbox link, .qmbox meta {
+            display: none !important;
+        }</style>
     </div>
 </div>
 </body>

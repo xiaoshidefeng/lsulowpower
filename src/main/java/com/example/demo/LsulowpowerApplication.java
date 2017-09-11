@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class LsulowpowerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LsulowpowerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(LsulowpowerApplication.class, args);
+    }
 }

@@ -37,23 +37,22 @@ public class UserServiceImpl implements UserService {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getFieldError().getDefaultMessage());
             return ResultUtil.error(ResultEnums.UNKONW_ERROR);
-        } else if(user.getUserEmail() == null || user.getPassword() == null ||
-                user.getUserEmail().equals("") || user.getPassword().equals("")) {
+        } else if (IsNull.isNullField(user.getUserEmail(), user.getPassword())) {
             return ResultUtil.error(ResultEnums.ILLEGAL_INPUT);
         }
 
         //正则表达式验证邮箱
-        if(!user.getUserEmail().matches("^\\w+@(\\w+\\.)+\\w+$")) {
+        if (!user.getUserEmail().matches("^\\w+@(\\w+\\.)+\\w+$")) {
             return ResultUtil.error(ResultEnums.MAIL_ILLEGAL);
         }
-        if(userRepository.findByUserEmail(user.getUserEmail()) != null) {
+        if (userRepository.findByUserEmail(user.getUserEmail()) != null) {
             User user1 = userRepository.findByUserEmail(user.getUserEmail());
             int state = user1.getUserState();
-            if(state == 1) {
+            if (state == 1) {
                 return ResultUtil.error(ResultEnums.MAIL_IS_REGISTE);
-            }else {
+            } else {
                 //注册但未激活
-                if(mailUtil.sendRegisterMail(user1.getUserEmail(), user1.getUserCode())) {
+                if (mailUtil.sendRegisterMail(user1.getUserEmail(), user1.getUserCode())) {
                     return ResultUtil.success(userRepository.save(user1));
                 }
                 return ResultUtil.error(ResultEnums.MAIL_SEND_FAIL);
@@ -72,7 +71,7 @@ public class UserServiceImpl implements UserService {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         user.setRegisterTime(df.format(new Date()));
 
-        if(mailUtil.sendRegisterMail(user.getUserEmail(), code)) {
+        if (mailUtil.sendRegisterMail(user.getUserEmail(), code)) {
             return ResultUtil.success(userRepository.save(user));
         }
         return ResultUtil.error(ResultEnums.MAIL_SEND_FAIL);
@@ -88,8 +87,7 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        if (user.getUserEmail() == null || user.getPassword() == null ||
-                user.getUserEmail().equals("") || user.getPassword().equals("")) {
+        if (IsNull.isNullField(user.getUserEmail(), user.getPassword())) {
             return ResultUtil.error(ResultEnums.INPUT_NULL);
         }
 
@@ -107,16 +105,16 @@ public class UserServiceImpl implements UserService {
             return ResultUtil.error(ResultEnums.PASSWORD_ERROR);
         }
 
-        if(newuser.getUserState() == 0) {
+        if (newuser.getUserState() == 0) {
             return ResultUtil.error(ResultEnums.NOT_CONFIRM_MAIL);
         }
 
         DormAndToken dormAndToken = new DormAndToken();
-        if(IsNull.isNullField(newuser.getFloor()) ||
+        if (IsNull.isNullField(newuser.getFloor()) ||
                 IsNull.isNullField(newuser.getDorm())) {
             dormAndToken.setFloor("not_set");
             dormAndToken.setDorm("not_set");
-        }else {
+        } else {
             dormAndToken.setFloor(newuser.getFloor());
             dormAndToken.setDorm(newuser.getDorm());
         }
@@ -132,10 +130,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result userCheckMail(String email, String code) {
         User user = userRepository.findByUserCode(code);
-        if(user == null) {
+        if (user == null) {
             return ResultUtil.error(ResultEnums.MAIL_CONFIRM_FAIL);
         }
-        if(user.getUserEmail() != null && user.getUserEmail().equals(email)) {
+        if (!IsNull.isNullField(user.getUserEmail()) && user.getUserEmail().equals(email)) {
             user.setUserState(1);
             //TODO 关于时间的验证 待做
             userRepository.save(user);
@@ -147,13 +145,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result bindingDorm(String dorm, String token, String floor) {
 
-        if(token == null || token.equals("")) {
+        if (IsNull.isNullField(token)) {
             return ResultUtil.error(ResultEnums.NOT_LOGIN);
-        } else if(dorm == null || dorm.equals("") || floor.equals("")) {
+        } else if (IsNull.isNullField(dorm, floor)) {
             return ResultUtil.error(ResultEnums.NOT_INPUT_DORM_INFO);
         }
         User user = userRepository.findByUserToken(token);
-        if(user == null) {
+        if (user == null) {
             return ResultUtil.error(ResultEnums.LOGIN_INFO_FIND_FAIL);
         }
 
@@ -186,13 +184,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result forgetPassword(String email) {
         User user = userRepository.findByUserEmail(email);
-        if(user == null) {
+        if (user == null) {
             return ResultUtil.error(ResultEnums.FINDBACK_PASSWORD_FAIL);
         }
         String randcode = CodeUtil.generateRandNum();
         user.setConfirmCode(randcode);
         userRepository.save(user);
-        if(mailUtil.sendFindBackPasswordCodeMail(email, randcode)) {
+        if (mailUtil.sendFindBackPasswordCodeMail(email, randcode)) {
 
             return ResultUtil.success("验证邮件发送成功");
         }
@@ -202,17 +200,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result findBackPasswordByConfirmCode(String email, String code, String newPassword) {
-        if(email.equals("") || code ==null || newPassword == null ||
-                email.equals("") || code.equals("") || newPassword.equals("")) {
+        if (IsNull.isNullField(email, code, newPassword)) {
             return ResultUtil.error(ResultEnums.INPUT_NULL);
         }
 
         User user = userRepository.findByUserEmail(email);
-        if(user == null) {
+        if (user == null) {
             return ResultUtil.error(ResultEnums.FINDBACK_PASSWORD_FAIL);
         }
 
-        if(!user.getConfirmCode().equals(code)) {
+        if (!user.getConfirmCode().equals(code)) {
             return ResultUtil.error(ResultEnums.CONFIRM_CODE_ERROR);
         }
         //加盐
