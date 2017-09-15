@@ -1,4 +1,4 @@
-package com.example.demo.domain.repository;
+package com.example.demo.repository;
 
 import com.example.demo.domain.Feedback;
 import com.example.demo.domain.User;

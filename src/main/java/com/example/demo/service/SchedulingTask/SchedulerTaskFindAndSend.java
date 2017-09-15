@@ -2,8 +2,8 @@ package com.example.demo.service.SchedulingTask;
 
 import com.example.demo.domain.Power;
 import com.example.demo.domain.User;
-import com.example.demo.domain.repository.PowerRepository;
-import com.example.demo.domain.repository.UserRepository;
+import com.example.demo.repository.PowerRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.utils.IsNull;
 import com.example.demo.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class SchedulerTaskFindAndSend {
     private String powerValue;
     private String dayTime;
 
-    private String dayTimes = "2017-7-21";
+    private String dayTimes = "2017-9-6";
 
     @Scheduled(cron = "0 0 6,7,8,9,10,11,12,15,17,20 * * ?")
     private void process() {

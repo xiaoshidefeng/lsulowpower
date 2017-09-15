@@ -2,8 +2,8 @@ package com.example.demo.utils;
 
 import com.example.demo.domain.Power;
 import com.example.demo.domain.User;
-import com.example.demo.domain.repository.PowerRepository;
-import com.example.demo.domain.repository.UserRepository;
+import com.example.demo.repository.PowerRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.domain.Power;
 import com.example.demo.domain.User;
 import com.example.demo.service.Impl.UserServiceImpl;
+import com.example.demo.service.PowerService;
 import com.example.demo.utils.CodeUtil;
 import com.example.demo.utils.IsNull;
 import com.example.demo.utils.MailUtil;
@@ -16,6 +18,7 @@ import org.thymeleaf.context.Context;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -33,17 +36,17 @@ public class LsulowpowerApplicationTests {
 //	@Autowired
 //	private UserServiceImpl userService;
 
+//	@Autowired
+//	private PowerService powerService;
+
 	@Test
 	public void totest() {
-//		userService.forgetPassword("1330661071@qq.com");
-//		String s1 = "1212";
-//		String s2 = "123";
-//		if (IsNull.isNullField(s1, s2)) {
-//			System.out.println("1111111111");
-//		} else {
-//			System.out.println("2222222222");
+//		List<Power> list1 = powerService.findAll();
+//		System.out.println("第一次查询：" + list1.get(0));
 //
-//		}
+//		List<Power> list2 = powerService.findAll();
+//		System.out.println("第二次查询：" + list2.get(0));
+
 
 	}
 //

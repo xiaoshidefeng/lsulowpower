@@ -2,7 +2,7 @@ package com.example.demo.service.Impl;
 
 import com.example.demo.domain.DormAndToken;
 import com.example.demo.domain.User;
-import com.example.demo.domain.repository.UserRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.*;
 
